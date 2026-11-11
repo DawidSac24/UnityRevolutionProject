@@ -1,3 +1,7 @@
+# Unity Project File Structure & Git Guidelines
+
+To prevent merge conflicts and keep the project organized, we use a **Type-Based** file structure rather than grouping folders by person. All project-specific files should be placed inside the `_Project` folder to separate our work from third-party plugins.
+   - **The Workflow:** Work in your own personal sandbox scene in `Scenes/TestScenes/`. Build your feature (e.g., a new enemy or a UI canvas), turn it into a **Prefab**, and push the Prefab to GitHub. Then, one designated person places that Prefab into the main level scene.
 ## 📂 Repository Structure
 
 ```text
@@ -147,8 +151,3 @@ This table breaks down the work into 3 Phases. **Phase 1 (MVP)** is mandatory fo
 | **Advanced Movement**        | Phase 3 (Stretch) | Sliding, Dashing, Wall-Jumping, Jump Buffering                            | `PlayerMovement.cs` (Updates)                              | Dawid          |
 | **Advanced Level/Loop**      | Phase 3 (Stretch) | Checkpoint logic, time penalty vs full reset                              | `CheckpointManager.cs`                                     | Mitica & Dawid |
 | **Extra Weapons & AI**       | Phase 3 (Stretch) | Weapon pickups, Ranged enemies, Destructible props                        | `WeaponPickup.cs`, `DestructibleObject.cs`                 | Ivan & Hedi    |
-
-# Unity Project File Structure & Git Guidelines
-
-To prevent merge conflicts and keep the project organized, we use a **Type-Based** file structure rather than grouping folders by person. All project-specific files should be placed inside the `_Project` folder to separate our work from third-party plugins.
-   - **The Workflow:** Work in your own personal sandbox scene in `Scenes/TestScenes/`. Build your feature (e.g., a new enemy or a UI canvas), turn it into a **Prefab**, and push the Prefab to GitHub. Then, one designated person places that Prefab into the main level scene.
