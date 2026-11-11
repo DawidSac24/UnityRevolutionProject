@@ -1,3 +1,39 @@
+## 📂 Repository Structure
+
+```text
+Assets/
+├── _Project/
+│   ├── Animations/         # All .anim and Animator Controllers
+│   ├── Art/                # 3D Models, Materials, Textures
+│   ├── Audio/              # Sound effects and music
+│   ├── Prefabs/            # ALL game objects must become prefabs!
+│   │   ├── Enemies/
+│   │   ├── Player/
+│   │   └── Environment/
+│   ├── Scenes/
+│   │   ├── MainMenu.unity
+│   │   ├── Level_01.unity
+│   │   └── TestScenes/     # Personal sandboxes (e.g., Dawid_Test.unity)
+│   ├── Scripts/
+│   │   ├── Core/           # GameManager, RevolutionController
+│   │   ├── Player/         # PlayerMovement, WeaponController
+│   │   ├── Enemies/        # EnemyAI, WaypointPatrol
+│   │   └── UI/             # UIManager, Menus
+│   └── Settings/           # Input Actions, Physics Materials
+└── Plugins/                # Let Unity put 3rd party assets here
+```
+
+## ⚠️ The 3 Golden Rules for Unity + GitHub
+
+1. **The `.gitignore` is Mandatory:**
+   Before your very first commit, you must include a standard Unity `.gitignore` file at the root of the repository. You should **only** commit the `Assets` and `ProjectSettings` folders. Never commit the `Library`, `Logs`, `obj`, or `Temp` folders.
+
+2. **Always Commit `.meta` Files:**
+   Every file and folder in Unity generates a `.meta` file (e.g., `PlayerMovement.cs` generates `PlayerMovement.cs.meta`). This file stores the GUID that Unity uses to link scripts to GameObjects. **If you commit a file, you must commit its matching `.meta` file**, otherwise references will break for everyone else.
+
+3. **Never Work in the Same Scene:**
+   Unity Scenes are massive text files. If two people edit `Level_01.unity` at the same time, Git will create an unresolvable merge conflict, and someone's work will be lost.
+
 # Time Revolution - Project Roadmap & Task Distribution
 
 This roadmap is designed for a fast, 3-week development cycle. Since the team is strong in CS but new to Unity, **simplicity is key**. We will focus on a Minimum Viable Product (MVP) first, ensuring the core time loop and basic combat work before adding complex movement or extra weapons.
@@ -115,40 +151,4 @@ This table breaks down the work into 3 Phases. **Phase 1 (MVP)** is mandatory fo
 # Unity Project File Structure & Git Guidelines
 
 To prevent merge conflicts and keep the project organized, we use a **Type-Based** file structure rather than grouping folders by person. All project-specific files should be placed inside the `_Project` folder to separate our work from third-party plugins.
-
-## 📂 Repository Structure
-
-```text
-Assets/
-├── _Project/
-│   ├── Animations/         # All .anim and Animator Controllers
-│   ├── Art/                # 3D Models, Materials, Textures
-│   ├── Audio/              # Sound effects and music
-│   ├── Prefabs/            # ALL game objects must become prefabs!
-│   │   ├── Enemies/
-│   │   ├── Player/
-│   │   └── Environment/
-│   ├── Scenes/
-│   │   ├── MainMenu.unity
-│   │   ├── Level_01.unity
-│   │   └── TestScenes/     # Personal sandboxes (e.g., Dawid_Test.unity)
-│   ├── Scripts/
-│   │   ├── Core/           # GameManager, RevolutionController
-│   │   ├── Player/         # PlayerMovement, WeaponController
-│   │   ├── Enemies/        # EnemyAI, WaypointPatrol
-│   │   └── UI/             # UIManager, Menus
-│   └── Settings/           # Input Actions, Physics Materials
-└── Plugins/                # Let Unity put 3rd party assets here
-```
-
-## ⚠️ The 3 Golden Rules for Unity + GitHub
-
-1. **The `.gitignore` is Mandatory:**
-   Before your very first commit, you must include a standard Unity `.gitignore` file at the root of the repository. You should **only** commit the `Assets` and `ProjectSettings` folders. Never commit the `Library`, `Logs`, `obj`, or `Temp` folders.
-
-2. **Always Commit `.meta` Files:**
-   Every file and folder in Unity generates a `.meta` file (e.g., `PlayerMovement.cs` generates `PlayerMovement.cs.meta`). This file stores the GUID that Unity uses to link scripts to GameObjects. **If you commit a file, you must commit its matching `.meta` file**, otherwise references will break for everyone else.
-
-3. **Never Work in the Same Scene:**
-   Unity Scenes are massive text files. If two people edit `Level_01.unity` at the same time, Git will create an unresolvable merge conflict, and someone's work will be lost.
    - **The Workflow:** Work in your own personal sandbox scene in `Scenes/TestScenes/`. Build your feature (e.g., a new enemy or a UI canvas), turn it into a **Prefab**, and push the Prefab to GitHub. Then, one designated person places that Prefab into the main level scene.
