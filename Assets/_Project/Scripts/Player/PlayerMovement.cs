@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleMovement(Vector2 moveVector, bool isGrounded)
     {
+        if (_rb.isKinematic) return;
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
