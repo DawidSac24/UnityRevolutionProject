@@ -81,6 +81,7 @@ public class RevolutionController : MonoBehaviour
 
     private void HandleGhostSpawn()
     {
+        if (!enableGhostEffect) return;
         if (recordedPoints.Count <= rewindSpeedMultiplier) { StopRewind(); return; }
         if (_ghosts.Count >= ghostSpawnCount)
         {
