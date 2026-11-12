@@ -150,9 +150,9 @@ public class PlayerMovement : MonoBehaviour
         if (!_isDashTriggered) return;
 
         Vector3 direction = _rb.linearVelocity.normalized;
-        if (direction.Equals(Vector3.zero))
+        if (direction.x == 0 || direction.z == 0) 
             direction = Vector3.forward;
-        _rb.AddForce(direction * dashForce, ForceMode.Impulse);
+        _rb.AddForce(new Vector3(direction.x, 0, direction.z) * dashForce, ForceMode.Impulse);
 
         _isDashTriggered = false;
     }

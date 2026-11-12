@@ -5,22 +5,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class RevolutionController : MonoBehaviour
 {
-    [SerializeField] private InputActionAsset inputActions;
-
     [Header("Rewind Settings")]
     [SerializeField] private float rewindDurationInSeconds = 3f;
     [SerializeField] private int rewindSpeedMultiplier = 2;
 
-    [Header("Ghost Settings")]
+    [Header("Ghost Effect")]
+    [SerializeField] private bool enableGhostEffect = true;
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private int ghostSpawnRate = 5;
     [SerializeField] private int ghostSpawnCount = 5;
-
-    private const string ACTION_MAP = "Player";
-    private const string REWIND_ACTION = "Rewind";
-    private InputAction _rewindAction;
+    [SerializeField] private float ghostSpawnYOffset = 1f;
 
     private Rigidbody _rb;
+    private PlayerInputHandler _inputHandler;
 
     private readonly List<RecordedPoint> recordedPoints = new();
     private bool _isRewinding = false;
@@ -28,27 +25,13 @@ public class RevolutionController : MonoBehaviour
     private List<GameObject> _ghosts;
     private int _lastCloneCount;
 
-    private void Awake()
-    {
-        _rewindAction = inputActions.FindActionMap(ACTION_MAP).FindAction(REWIND_ACTION);
-        _rb = GetComponent<Rigidbody>();
-    }
-
-    private void OnEnable() => _rewindAction?.Enable();
-    private void OnDisable() => _rewindAction?.Disable();
-
     private void Start()
     {
+        _rb = GetComponent<Rigidbody>();
+        _inputHandler = GetComponent<PlayerInputHandler>();
+        
         _lastCloneCount = ghostSpawnRate;
         _ghosts = new List<GameObject>(ghostSpawnCount);
-    }
-
-    private void Update()
-    {
-        if (_rewindAction.triggered)
-        {
-            StartRewind();
-        }
     }
 
     private void FixedUpdate()
@@ -79,7 +62,7 @@ public class RevolutionController : MonoBehaviour
 
     private void HandleRevolution()
     {
-        if (recordedPoints.Count < rewindSpeedMultiplier)
+        if (recordedPoints.Count <= rewindSpeedMultiplier)
         {
             StopRewind();
             return;
@@ -88,17 +71,17 @@ public class RevolutionController : MonoBehaviour
         int lastIndex = recordedPoints.Count - rewindSpeedMultiplier;
         RecordedPoint lastRecord = recordedPoints[lastIndex];
 
-        transform.position = lastRecord.position;
-        transform.rotation = lastRecord.rotation;
+        _rb.MovePosition(lastRecord.position);
+        _rb.MoveRotation(lastRecord.rotation);
 
         HandleGhostSpawn();
 
-        for (int i = lastIndex; i < recordedPoints.Count; i++)
-            recordedPoints.RemoveAt(i);
+        recordedPoints.RemoveRange(lastIndex, recordedPoints.Count - lastIndex);
     }
 
     private void HandleGhostSpawn()
     {
+        if (recordedPoints.Count <= rewindSpeedMultiplier) { StopRewind(); return; }
         if (_ghosts.Count >= ghostSpawnCount)
         {
             GameObject ghost = _ghosts[0];
@@ -108,7 +91,7 @@ public class RevolutionController : MonoBehaviour
 
         if (_lastCloneCount == 5)
         {
-            Vector3 spawnPosition = new Vector3(_rb.position.x, 1, _rb.position.z);
+            Vector3 spawnPosition = new Vector3(_rb.position.x, _rb.position.y + ghostSpawnYOffset, _rb.position.z);
             _ghosts.Add(Instantiate(ghostPrefab, spawnPosition, transform.rotation));
 
             _lastCloneCount = 0;
@@ -138,14 +121,24 @@ public class RevolutionController : MonoBehaviour
     private void StopRewind()
     {
         _isRewinding = false;
-
         _rb.isKinematic = false;
 
-        // Erase ghost momentum so the momentum from before the rewind isn't applied
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
 
+        recordedPoints.Clear(); 
+
         DestroyAllGhosts();
+    }
+    
+    private void OnEnable()
+    {
+        PlayerInputHandler.OnRewindPressed += StartRewind;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputHandler.OnRewindPressed -= StartRewind;
     }
 
     private class RecordedPoint
