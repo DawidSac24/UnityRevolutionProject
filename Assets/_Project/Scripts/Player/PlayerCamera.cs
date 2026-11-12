@@ -8,10 +8,11 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("Camera Settings")]
     [SerializeField] private float fieldOfView = 60.0f;
+    
     private Camera _mainCamera;
-
-    private PlayerInputHandler _inputHandler;
     private Rigidbody _rb;
+    
+    private PlayerInputHandler _inputHandler;
 
     // private CharacterController cc;
 
@@ -21,8 +22,9 @@ public class PlayerCamera : MonoBehaviour
     void Start()
     {
         _mainCamera = GetComponentInChildren<Camera>();
-        _inputHandler = GetComponentInParent<PlayerInputHandler>();
         _rb = GetComponentInParent<Rigidbody>();
+        
+        _inputHandler = GetComponentInParent<PlayerInputHandler>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -31,8 +33,8 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleLooking(_inputHandler.LookInput);
         _mainCamera.fieldOfView = fieldOfView;
+        HandleLooking(_inputHandler.LookInput);
     }
 
     private void HandleLooking(Vector2 lookDelta)
