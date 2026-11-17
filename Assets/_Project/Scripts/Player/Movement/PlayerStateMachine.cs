@@ -1,42 +1,32 @@
+using _Project.Scripts.Player.State;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider), typeof(Rigidbody), typeof(PlayerInputHandler))]
-public class PlayerMovement : MonoBehaviour
+[RequireComponent(typeof(PlayerMovementConfig))]
+public class PlayerStateMachine : MonoBehaviour
 {
+    public CapsuleCollider collider;
+    public Rigidbody rb;
+    public PlayerInputHandler inputHandler;
+
     [Header("Movement")]
     [SerializeField] private float horizontalVelocity; // expose variable for debug
     [SerializeField] private float targetMoveSpeed = 0.0f;
-    [SerializeField] private float walkSpeed = 15.0f;
 
-    [Header("Frictions")]
-    [SerializeField] private float idleFriction = 20.0f;
-    [SerializeField] private float bleedingFriction = 3.0f;
-    [SerializeField] private float turnaroundFriction = 25.0f;
-    [SerializeField] private float slidingFriction = 0.0f;
-
-    [Header("Sliding")]
-    [SerializeField] private float slideDuration = 0.5f;
-    [SerializeField] private Transform[] rotateOnSlideTransforms;
-    [SerializeField] private Transform[] moveOnSlideTransforms;
-    [SerializeField] private float slidePositionYOffset = -0.5f;
-    [SerializeField] private float slideRotationXOffset = 15f;
 
     [Header("Jumping")]
     [SerializeField] private float jumpForce = 5.0f;
     [SerializeField] private float airMultiplier = 0.4f;
 
     [Header("Dash")]
-    [SerializeField] private float dashForce = 20.0f;
-
     [Header("GroundChecks")]
     [SerializeField] private Transform groundCheck;
 
     [SerializeField] private float groundDistance = 0.2f;
     [SerializeField] private LayerMask groundMask;
 
-    private CapsuleCollider _collider;
-    private Rigidbody _rb;
-    private PlayerInputHandler _inputHandler;
+    private PlayerMovementConfig _movementConfig;
+    private PlayerState currentState;
 
     private bool _isGrounded = false;
     private bool _isJumpTriggered = false;
@@ -52,9 +42,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        _collider = GetComponent<CapsuleCollider>();
-        _rb = GetComponent<Rigidbody>();
-        _inputHandler = GetComponent<PlayerInputHandler>();
+        collider = GetComponent<CapsuleCollider>();
+        rb = GetComponent<Rigidbody>();
+        inputHandler = GetComponent<PlayerInputHandler>();
     }
 
     void Update()
@@ -68,12 +58,12 @@ public class PlayerMovement : MonoBehaviour
         HandleJump();
         HandleSlide();
         HandleDash();
-        HandleMovement(_inputHandler.MoveInput);
+        HandleMovement(inputHandler.MoveInput);
     }
 
     private void HandleMovement(Vector2 moveVector)
     {
-        if (_rb.isKinematic) return;
+        if (rb.isKinematic) return;
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
 
@@ -84,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveForce = (forward * moveVector.y + right * moveVector.x).normalized *
                             (targetMoveSpeed * currentMultiplier);
 
-        Vector3 currentHorizontalVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+        Vector3 currentHorizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         if (moveVector == Vector2.zero)
         {
             // Only apply idle friction if standing on the ground
@@ -94,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
                 currentHorizontalVelocity =
                     Vector3.Lerp(currentHorizontalVelocity, Vector3.zero, currentFrition * Time.fixedDeltaTime);
 
-                _rb.linearVelocity = new Vector3(currentHorizontalVelocity.x, _rb.linearVelocity.y,
+                rb.linearVelocity = new Vector3(currentHorizontalVelocity.x, rb.linearVelocity.y,
                     currentHorizontalVelocity.z);
             }
         }
@@ -109,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentHorizontalVelocity = Vector3.Lerp(currentHorizontalVelocity, Vector3.zero,
                     turnaroundFriction * Time.fixedDeltaTime);
-                _rb.linearVelocity = new Vector3(currentHorizontalVelocity.x, _rb.linearVelocity.y,
+                rb.linearVelocity = new Vector3(currentHorizontalVelocity.x, rb.linearVelocity.y,
                     currentHorizontalVelocity.z);
             }
 
@@ -119,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
                 // Only allow AddForce if dot <= 0 (steering/braking). 
                 if (dot <= 0)
                 {
-                    _rb.AddForce(moveForce, ForceMode.Force);
+                    rb.AddForce(moveForce, ForceMode.Force);
                 }
 
                 if (_isGrounded && !_isSliding)
@@ -127,21 +117,21 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 targetBleedVelocity = currentHorizontalVelocity.normalized * targetMoveSpeed;
                     Vector3 bledVelocity = Vector3.Lerp(currentHorizontalVelocity, targetBleedVelocity,
                         bleedingFriction * Time.fixedDeltaTime);
-                    _rb.linearVelocity = new Vector3(bledVelocity.x, _rb.linearVelocity.y, bledVelocity.z);
+                    rb.linearVelocity = new Vector3(bledVelocity.x, rb.linearVelocity.y, bledVelocity.z);
                 }
             }
             // UNDER THE LIMIT
             else
             {
-                _rb.AddForce(moveForce, ForceMode.Force);
+                rb.AddForce(moveForce, ForceMode.Force);
 
                 if (_isGrounded)
                 {
-                    Vector3 newHorizontalVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+                    Vector3 newHorizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
                     if (newHorizontalVelocity.magnitude > targetMoveSpeed)
                     {
                         Vector3 hardCap = newHorizontalVelocity.normalized * targetMoveSpeed;
-                        _rb.linearVelocity = new Vector3(hardCap.x, _rb.linearVelocity.y, hardCap.z);
+                        rb.linearVelocity = new Vector3(hardCap.x, rb.linearVelocity.y, hardCap.z);
                     }
                 }
             }
@@ -156,10 +146,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (_isGrounded)
         {
-            Vector3 clearedHorizontalVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
-            _rb.linearVelocity = clearedHorizontalVelocity;
+            Vector3 clearedHorizontalVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            rb.linearVelocity = clearedHorizontalVelocity;
 
-            _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
         // Instantly consume the jump request so it doesn't get stuck true
@@ -171,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_isSliding) return;
 
         // Stop sliding if the button is released AND the minimum slide duration has passed
-        if ((!_inputHandler.SlideInput && (Time.time - _lastSlideTime > slideDuration)) ||
+        if ((!inputHandler.SlideInput && (Time.time - _lastSlideTime > slideDuration)) ||
             horizontalVelocity < walkSpeed)
         {
             StopSlide();
@@ -229,10 +219,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_isDashTriggered) return;
 
-        Vector3 direction = _rb.linearVelocity.normalized;
+        Vector3 direction = rb.linearVelocity.normalized;
         if (direction.x == 0 || direction.z == 0)
             direction = Vector3.forward;
-        _rb.AddForce(new Vector3(direction.x, 0, direction.z) * dashForce, ForceMode.Impulse);
+        rb.AddForce(new Vector3(direction.x, 0, direction.z) * dashForce, ForceMode.Impulse);
 
         _isDashTriggered = false;
     }
