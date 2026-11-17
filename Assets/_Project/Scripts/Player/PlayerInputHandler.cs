@@ -9,6 +9,7 @@ public class PlayerInputHandler : MonoBehaviour
     private const string MOVE_ACTION = "Move";
     private const string LOOK_ACTION = "Look";
     private const string JUMP_ACTION = "Jump";
+    private const string SLIDE_ACTION = "Slide";
     private const string DASH_ACTION = "Dash";
     private const string REWIND_ACTION = "Rewind";
 
@@ -23,6 +24,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction _moveAction;
     private InputAction _lookAction;
     private InputAction _jumpAction;
+    private InputAction _slideAction;
     private InputAction _dashAction;
     private InputAction _rewindAction;
 
@@ -35,10 +37,12 @@ public class PlayerInputHandler : MonoBehaviour
     // INPUTS
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
+    public bool SlideInput { get; private set; }
 
     // ACTIONS
     // Movement
     public static event Action OnJumpPressed;
+    public static event Action OnSlidePressed;
     public static event Action OnDashPressed;
     public static event Action OnRewindPressed;
 
@@ -53,6 +57,7 @@ public class PlayerInputHandler : MonoBehaviour
         _moveAction = inputActions.FindActionMap(ACTION_MAP).FindAction(MOVE_ACTION);
         _lookAction = inputActions.FindActionMap(ACTION_MAP).FindAction(LOOK_ACTION);
         _jumpAction = inputActions.FindActionMap(ACTION_MAP).FindAction(JUMP_ACTION);
+        _slideAction =  inputActions.FindActionMap(ACTION_MAP).FindAction(SLIDE_ACTION);
         _dashAction = inputActions.FindActionMap(ACTION_MAP).FindAction(DASH_ACTION);
         _rewindAction = inputActions.FindActionMap(ACTION_MAP).FindAction(REWIND_ACTION);
 
@@ -79,7 +84,9 @@ public class PlayerInputHandler : MonoBehaviour
         MoveInput = _moveAction.ReadValue<Vector2>();
         LookInput = _lookAction.ReadValue<Vector2>();
 
-        if (_jumpAction.triggered) OnJumpPressed?.Invoke();
+        if (_jumpAction.triggered) OnJumpPressed?.Invoke(); 
+        if (_slideAction.triggered) OnSlidePressed?.Invoke();
+        SlideInput =  _slideAction.ReadValue<float>() > 0;
         if (_dashAction.triggered) OnDashPressed?.Invoke();
         if (_rewindAction.triggered) OnRewindPressed?.Invoke();
 

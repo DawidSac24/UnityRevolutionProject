@@ -168,9 +168,18 @@ MonoBehaviour:
   idleFriction: 20
   bleedingFriction: 3
   turnaroundFriction: 25
-  dashForce: 20
+  slidingFriction: 0
+  slideDuration: 0.5
+  rotateOnSlideTransforms:
+  - {fileID: 3192809969882355994}
+  moveOnSlideTransforms:
+  - {fileID: 3192809969882355994}
+  - {fileID: 8190499890374813019}
+  slidePositionYOffset: -0.5
+  slideRotationXOffset: -30
   jumpForce: 5
   airMultiplier: 0.4
+  dashForce: 20
   groundCheck: {fileID: 2091548659424881204}
   groundDistance: 0.2
   groundMask:
