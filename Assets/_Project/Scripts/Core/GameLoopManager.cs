@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class GameLoopManager : MonoBehaviour
 {
     [SerializeField]
-    public float loopDuration = 60f;
+    private float loopDuration = 60f;
 
     private float timeRemaining;
     private bool isGameOver = false;
