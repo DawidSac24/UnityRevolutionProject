@@ -5,6 +5,6 @@ public class MainMenuController : MonoBehaviour
 {
        public void StartGame()
     {
-        SceneManager.LoadScene("Dawid_Test");
+        SceneManager.LoadScene("Mitica_Test");
     }
 }

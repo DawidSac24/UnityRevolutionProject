@@ -5,6 +5,6 @@ public class TryAgainController : MonoBehaviour
 {
        public void ReStartGame()
     {
-        SceneManager.LoadScene("Dawid_Test");
+        SceneManager.LoadScene("Mitica_Test");
     }
 }

@@ -4,18 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class GameLoopManager : MonoBehaviour
 {
-    [SerializeField]
-    private float loopDuration = 60f;
+    [SerializeField] private float loopDuration = 60f;
 
     private float timeRemaining;
     private bool isGameOver = false;
 
-    void Start()
+    private void Start()
     {
         timeRemaining = loopDuration;
     }
 
-    void Update()
+    private void Update()
     {
         if (isGameOver)
             return;
@@ -25,17 +24,17 @@ public class GameLoopManager : MonoBehaviour
         if (timeRemaining <= 0f)
         {
             timeRemaining = 0f;
-            RestartLevel();
+            GameOver();
         }
     }
 
-    void RestartLevel()
+    private void GameOver()
     {
         isGameOver = true;
 
-        SceneManager.LoadScene(
-            SceneManager.GetActiveScene().name
-        );
+        Cursor.lockState = CursorLockMode.None; // unlocking the Cursor
+        Cursor.visible = true;
+        SceneManager.LoadScene("DeathScreen");
     }
 
     public float GetTimeRemaining()
