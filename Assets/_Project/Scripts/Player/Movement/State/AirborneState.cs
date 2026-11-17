@@ -1,26 +1,28 @@
-﻿namespace _Project.Scripts.Player.State
+﻿using UnityEngine;
+
+namespace _Project.Scripts.Player.State
 {
-    public class AirborneState : PlayerState
+    public class AirborneState : ContinuousState
     {
-        public AirborneState(PlayerStateMachine stateMachine, PlayerMovementConfig movementConfig) : base(stateMachine,
-            movementConfig)
+        protected override PhysicsParams StatePhysics => Config.airParams;
+
+        public AirborneState(PlayerStateMachine player) : base(player)
         {
         }
 
         public override void Enter()
         {
+            throw new System.NotImplementedException();
         }
 
         public override void Exit()
         {
+            throw new System.NotImplementedException();
         }
 
-        public override void LogicUpdate(float deltaTime)
+        public override void LogicUpdate()
         {
-        }
-
-        public override void PhysicsUpdate(float deltaTime)
-        {
+            throw new System.NotImplementedException();
         }
     }
 }

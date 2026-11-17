@@ -1,26 +1,31 @@
-﻿namespace _Project.Scripts.Player.State
+﻿using UnityEngine;
+
+namespace _Project.Scripts.Player.State
 {
     public class DashingState : PlayerState
     {
-        public DashingState(PlayerStateMachine stateMachine, PlayerMovementConfig movementConfig) : base(stateMachine,
-            movementConfig)
+        public DashingState(PlayerStateMachine sm) : base(sm)
         {
         }
 
         public override void Enter()
         {
+            throw new System.NotImplementedException();
         }
 
         public override void Exit()
         {
+            throw new System.NotImplementedException();
         }
 
-        public override void LogicUpdate(float deltaTime)
+        public override void LogicUpdate()
         {
+            throw new System.NotImplementedException();
         }
 
-        public override void PhysicsUpdate(float deltaTime)
+        public override void PhysicsUpdate()
         {
+            throw new System.NotImplementedException();
         }
     }
 }

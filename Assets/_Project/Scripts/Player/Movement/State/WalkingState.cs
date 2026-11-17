@@ -2,10 +2,11 @@
 
 namespace _Project.Scripts.Player.State
 {
-    public class WalkingState : PlayerState
+    public class WalkingState : GroundedState
     {
-        public WalkingState(PlayerStateMachine stateMachine, PlayerMovementConfig movementConfig) : base(stateMachine,
-            movementConfig)
+        protected override PhysicsParams StatePhysics => Config.walkParams;
+
+        public WalkingState(PlayerStateMachine player) : base(player)
         {
         }
 
@@ -17,15 +18,14 @@ namespace _Project.Scripts.Player.State
         {
         }
 
-        public override void LogicUpdate(float deltaTime)
+        public override void LogicUpdate()
         {
-        }
-
-        public override void PhysicsUpdate(float deltaTime)
-        {
-            if (_player.rb.isKinematic) return;
-            Vector3 forward = _player.transform.TransformDirection(Vector3.forward);
-            Vector3 right = _player.transform.TransformDirection(Vector3.right);
+            base.LogicUpdate();
+            
+            if (Player.InputHandler.SlideInput)
+            {
+                Player.CurrentState = Player.SlidingState;
+            }
         }
     }
 }

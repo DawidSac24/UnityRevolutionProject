@@ -1,9 +1,12 @@
-﻿namespace _Project.Scripts.Player.State
+﻿using UnityEngine;
+
+namespace _Project.Scripts.Player.State
 {
-    public class SlidingState : PlayerState
+    public class SlidingState : GroundedState
     {
-        public SlidingState(PlayerStateMachine stateMachine, PlayerMovementConfig movementConfig) : base(stateMachine,
-            movementConfig)
+        protected override PhysicsParams StatePhysics => Config.slideParams;
+
+        public SlidingState(PlayerStateMachine player) : base(player)
         {
         }
 
@@ -15,12 +18,9 @@
         {
         }
 
-        public override void LogicUpdate(float deltaTime)
+        public override void LogicUpdate()
         {
-        }
-
-        public override void PhysicsUpdate(float deltaTime)
-        {
+            throw new System.NotImplementedException();
         }
     }
 }
