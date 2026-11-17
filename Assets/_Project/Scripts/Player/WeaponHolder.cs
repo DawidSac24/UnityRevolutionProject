@@ -2,30 +2,42 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
+    [SerializeField] private Transform _playerCameraTransform;
+
     [Header("Arsenal")]
-    [SerializeField] private GameObject[] weapons; 
-    
+    [SerializeField] private GameObject[] weapons;
+
     private PlayerInputHandler _inputHandler;
-    
+
     private int _currentWeaponIndex = 0;
+    private Weapon _activeWeaponScript;
 
     private void Start()
     {
         EquipWeapon(_currentWeaponIndex);
     }
 
-    private void OnEnable()
+    private void EquipWeapon(int index)
     {
-        // Subscribe to the input events
-        PlayerInputHandler.OnWeaponScrolled += HandleScroll;
-        PlayerInputHandler.OnWeaponSlotSelected += EquipWeapon;
+        if (index < 0 || index >= weapons.Length) return;
+
+        _currentWeaponIndex = index;
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            bool isActive = (i == _currentWeaponIndex);
+            weapons[i].SetActive(isActive);
+
+            if (isActive)
+            {
+                _activeWeaponScript = weapons[i].GetComponent<Weapon>();
+            }
+        }
     }
 
-    private void OnDisable()
+    private void HandleShoot()
     {
-        // Unsubscribe to prevent memory leaks
-        PlayerInputHandler.OnWeaponScrolled -= HandleScroll;
-        PlayerInputHandler.OnWeaponSlotSelected -= EquipWeapon;
+        _activeWeaponScript.TryFire(_playerCameraTransform);
     }
 
     private void HandleScroll(float scrollY)
@@ -42,32 +54,32 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    private void EquipWeapon(int index)
-    {
-        if (index < 0 || index >= weapons.Length) return;
-
-        _currentWeaponIndex = index;
-
-        for (int i = 0; i < weapons.Length; i++)
-        {
-            if (weapons[i] != null)
-            {
-                weapons[i].SetActive(i == _currentWeaponIndex);
-            }
-        }
-    }
-
     private void SwitchWeaponUp()
     {
         int newIndex = _currentWeaponIndex + 1;
-        if (newIndex >= weapons.Length) newIndex = 0; 
+        if (newIndex >= weapons.Length) newIndex = 0;
         EquipWeapon(newIndex);
     }
 
     private void SwitchWeaponDown()
     {
         int newIndex = _currentWeaponIndex - 1;
-        if (newIndex < 0) newIndex = weapons.Length - 1; 
+        if (newIndex < 0) newIndex = weapons.Length - 1;
         EquipWeapon(newIndex);
+    }
+
+
+    private void OnEnable()
+    {
+        PlayerInputHandler.OnShootPressed += HandleShoot;
+        PlayerInputHandler.OnWeaponScrolled += HandleScroll;
+        PlayerInputHandler.OnWeaponSlotSelected += EquipWeapon;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputHandler.OnShootPressed -= HandleShoot;
+        PlayerInputHandler.OnWeaponScrolled -= HandleScroll;
+        PlayerInputHandler.OnWeaponSlotSelected -= EquipWeapon;
     }
 }
