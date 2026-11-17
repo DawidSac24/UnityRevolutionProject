@@ -30,15 +30,18 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(muzzlePoint.position, cameraTransform.forward, out hit, range))
         {
-            var other = hit.collider.gameObject;
-
-            // TODO: Est ce que on garde la possiblite qu'un ennemi en touche un autre ???
-            if (other.tag == "Player" || other.tag == "Ennemy")
+            IDamageable damageable = hit.collider.GetComponent<IDamageable>();
+            
+            if (damageable != null)
             {
-                Debug.Log(hit.transform.name);
-                IDamageable entity = other.GetComponent<IDamageable>();
+                // can take damage
+                damageable.TakeDamage(damage, hit.point, hit.normal);
             }
-            // Instantiate(impactPrefab, hit.point, hit.transform.rotation);
+            else
+            {
+                // hit a wall or something indestructible
+                // TODO: Spawn a bullet hole decal or dust particle here
+            }
         }
     }
 }

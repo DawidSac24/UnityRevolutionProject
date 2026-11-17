@@ -1,10 +1,12 @@
+using UnityEngine;
+
 namespace _Project.Scripts.Core
 {
     public interface IDamageable
     {
-        int health { get; set; }
-        int maxHealth { get; set; }
+        float health { get; set; }
+        float maxHealth { get; set; }
 
-        public void TakeDamage(int ammount);
+        public void TakeDamage(float amount, Vector3 hitPoint, Vector3 hitNormal); 
     }
 }
