@@ -29,7 +29,7 @@ public class RevolutionController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _inputHandler = GetComponent<PlayerInputHandler>();
-        
+
         _lastCloneCount = ghostSpawnRate;
         _ghosts = new List<GameObject>(ghostSpawnCount);
     }
@@ -72,7 +72,7 @@ public class RevolutionController : MonoBehaviour
         RecordedPoint lastRecord = recordedPoints[lastIndex];
 
         _rb.MovePosition(lastRecord.position);
-        _rb.MoveRotation(lastRecord.rotation);
+        // _rb.MoveRotation(lastRecord.rotation);
 
         HandleGhostSpawn();
 
@@ -82,7 +82,12 @@ public class RevolutionController : MonoBehaviour
     private void HandleGhostSpawn()
     {
         if (!enableGhostEffect) return;
-        if (recordedPoints.Count <= rewindSpeedMultiplier) { StopRewind(); return; }
+        if (recordedPoints.Count <= rewindSpeedMultiplier)
+        {
+            StopRewind();
+            return;
+        }
+
         if (_ghosts.Count >= ghostSpawnCount)
         {
             GameObject ghost = _ghosts[0];
@@ -127,11 +132,11 @@ public class RevolutionController : MonoBehaviour
         _rb.linearVelocity = Vector3.zero;
         _rb.angularVelocity = Vector3.zero;
 
-        recordedPoints.Clear(); 
+        recordedPoints.Clear();
 
         DestroyAllGhosts();
     }
-    
+
     private void OnEnable()
     {
         PlayerInputHandler.OnRewindPressed += StartRewind;

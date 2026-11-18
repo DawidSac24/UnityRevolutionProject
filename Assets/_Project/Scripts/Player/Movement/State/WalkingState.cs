@@ -18,14 +18,9 @@ namespace _Project.Scripts.Player.State
         {
         }
 
-        public override void LogicUpdate()
+        public override void OnSlideInput()
         {
-            base.LogicUpdate();
-            
-            if (Player.InputHandler.SlideInput)
-            {
-                Player.CurrentState = Player.SlidingState;
-            }
+            Player.ChangeState(Player.SlidingState);
         }
     }
 }

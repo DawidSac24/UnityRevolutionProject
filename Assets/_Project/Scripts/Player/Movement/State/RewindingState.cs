@@ -2,9 +2,9 @@ using UnityEngine;
 
 namespace _Project.Scripts.Player.State
 {
-    public class RewindState : PlayerState
+    public class RewindingState : PlayerState
     {
-        public RewindState(PlayerStateMachine sm) : base(sm)
+        public RewindingState(PlayerStateMachine sm) : base(sm)
         {
         }
 

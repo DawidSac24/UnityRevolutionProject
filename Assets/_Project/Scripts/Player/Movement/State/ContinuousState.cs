@@ -16,11 +16,9 @@ namespace _Project.Scripts.Player.State
             if (Player.Rb.isKinematic) return;
 
             Vector2 moveVector = Player.InputHandler.MoveInput;
-            Vector3 forward = Player.transform.TransformDirection(Vector3.forward);
-            Vector3 right = Player.transform.TransformDirection(Vector3.right);
 
             // Calculate Desired Force
-            Vector3 moveForce = (forward * moveVector.y + right * moveVector.x).normalized *
+            Vector3 moveForce = GetMovementDirection() *
                                 (StatePhysics.targetMoveSpeed * StatePhysics.movementMultiplier);
             Vector3 currentHorizontalVelocity =
                 new Vector3(Player.Rb.linearVelocity.x, 0f, Player.Rb.linearVelocity.z);
@@ -89,6 +87,11 @@ namespace _Project.Scripts.Player.State
                     }
                 }
             }
+        }
+
+        public bool IsGrounded()
+        {
+            return Physics.CheckSphere(Config.groundCheck.position, Config.groundDistance, Config.groundMask);
         }
     }
 }

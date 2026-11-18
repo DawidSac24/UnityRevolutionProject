@@ -12,17 +12,24 @@ namespace _Project.Scripts.Player.State
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            if (IsGrounded())
+                Jump();
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void LogicUpdate()
         {
-            throw new System.NotImplementedException();
+            if (IsGrounded())
+                Player.ChangeState(Player.WalkingState);
+        }
+
+        private void Jump()
+        {
+            ClearVelocity(false, true, false);
+            ApplyImpulse(new Vector3(0, Config.jumpForce, 0));
         }
     }
 }

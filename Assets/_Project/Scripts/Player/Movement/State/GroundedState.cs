@@ -8,7 +8,16 @@ namespace _Project.Scripts.Player.State
 
         public override void LogicUpdate()
         {
-            if ()
+            if (!IsGrounded())
+            {
+                Player.ChangeState(Player.AirborneState);
+            }
+        }
+
+
+        public override void OnJumpInput()
+        {
+            Player.ChangeState(Player.AirborneState);
         }
     }
 }

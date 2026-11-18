@@ -10,22 +10,31 @@ namespace _Project.Scripts.Player.State
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            Dash();
+            Player.ChangeState(Player.WalkingState);
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void LogicUpdate()
         {
-            throw new System.NotImplementedException();
         }
 
         public override void PhysicsUpdate()
         {
-            throw new System.NotImplementedException();
+        }
+
+        private void Dash()
+        {
+            Vector3 dashDir = GetMovementDirection();
+            if (dashDir == Vector3.zero)
+            {
+                dashDir = Player.transform.forward;
+            }
+
+            ApplyImpulse(dashDir * Config.dashForce);
         }
     }
 }
