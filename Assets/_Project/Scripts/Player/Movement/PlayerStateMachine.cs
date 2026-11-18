@@ -31,7 +31,7 @@ public class PlayerStateMachine : MonoBehaviour
     public DashingState DashingState { get; private set; }
     public RewindingState RewindingState { get; private set; }
 
-    public PlayerState CurrentState;
+    private PlayerState CurrentState;
 
     void Start()
     {

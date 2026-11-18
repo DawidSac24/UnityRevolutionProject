@@ -8,6 +8,7 @@ public class RevolutionController : MonoBehaviour
     [Header("Rewind Settings")]
     [SerializeField] private float rewindDurationInSeconds = 3f;
     [SerializeField] private int rewindSpeedMultiplier = 2;
+    [SerializeField] private bool enableRewindCameraOverwrite = true;
 
     [Header("Ghost Effect")]
     [SerializeField] private bool enableGhostEffect = true;
@@ -72,7 +73,8 @@ public class RevolutionController : MonoBehaviour
         RecordedPoint lastRecord = recordedPoints[lastIndex];
 
         _rb.MovePosition(lastRecord.position);
-        // _rb.MoveRotation(lastRecord.rotation);
+        if (enableRewindCameraOverwrite)
+            _rb.MoveRotation(lastRecord.rotation);
 
         HandleGhostSpawn();
 
