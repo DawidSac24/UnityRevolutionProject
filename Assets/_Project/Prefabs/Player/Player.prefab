@@ -158,8 +158,9 @@ GameObject:
   - component: {fileID: 8123273189114654759}
   - component: {fileID: 9111572643376227062}
   - component: {fileID: 6291529738483171609}
-  - component: {fileID: 9005525827687571389}
   - component: {fileID: 3708979846893189054}
+  - component: {fileID: 4993443843643304947}
+  - component: {fileID: 9005525827687571389}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -260,26 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39becf9482720b34c95cb059cb87b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
---- !u!114 &9005525827687571389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022164781385031839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 742b26bd634e4e745b0009a56b4e8b1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RevolutionController
-  rewindDurationInSeconds: 3
-  rewindSpeedMultiplier: 2
-  enableRewindCameraOverwrite: 1
-  enableGhostEffect: 1
-  ghostPrefab: {fileID: 1168864745409752853, guid: aa058d4026f5ce708ba7c4546b02b9cc, type: 3}
-  ghostSpawnRate: 5
-  ghostSpawnCount: 5
-  ghostSpawnYOffset: 1
 --- !u!114 &3708979846893189054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,11 +305,47 @@ MonoBehaviour:
   - {fileID: 2091548659424881204}
   - {fileID: 8190499890374813019}
   dashForce: 20
+  maxAirDashes: 1
   groundCheck: {fileID: 2091548659424881204}
   groundDistance: 0.2
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &4993443843643304947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022164781385031839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918b1a9149f2475f8f8bbbd6c54b43cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DashCharges
+  maxDashCharges: 3
+  maxAirDashes: 1
+  dashCooldownInSeconds: 3
+--- !u!114 &9005525827687571389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022164781385031839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742b26bd634e4e745b0009a56b4e8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RevolutionController
+  rewindDurationInSeconds: 3
+  rewindSpeedMultiplier: 2
+  enableRewindCameraOverwrite: 1
+  enableGhostEffect: 1
+  ghostPrefab: {fileID: 1168864745409752853, guid: aa058d4026f5ce708ba7c4546b02b9cc, type: 3}
+  ghostSpawnRate: 5
+  ghostSpawnCount: 5
+  ghostSpawnYOffset: 1
 --- !u!1 &2283234028073655408
 GameObject:
   m_ObjectHideFlags: 0

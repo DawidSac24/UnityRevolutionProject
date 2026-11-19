@@ -6,8 +6,6 @@ public class AirborneState : ContinuousState
 {
     protected override PhysicsParams StatePhysics => Config.airParams;
 
-    private int _dashCount = 0;
-
     public AirborneState(PlayerStateMachine player) : base(player)
     {
     }

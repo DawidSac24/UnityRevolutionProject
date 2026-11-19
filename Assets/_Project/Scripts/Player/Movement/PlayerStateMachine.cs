@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerMovementConfig), typeof(PlayerInputHandler))]
-[RequireComponent(typeof(DashCharges))]
+[RequireComponent(typeof(DashCharges), typeof(RevolutionController))]
 public class PlayerStateMachine : MonoBehaviour
 {
     public CapsuleCollider Collider { get; private set; }
@@ -18,6 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
     public DashingState DashingState { get; private set; }
     public DashCharges DashCharges { get; private set; }
     // global states
+    public RevolutionController RevolutionController { get; private set; }
     public RewindingState RewindingState { get; private set; }
 
     public PlayerState CurrentState { get; private set; }
@@ -35,10 +36,10 @@ public class PlayerStateMachine : MonoBehaviour
         AirborneState = new AirborneState(this);
         SlidingState = new SlidingState(this);
         DashingState = new DashingState(this);
-        // TODO: Implement RewindingState
-        // RewindingState = new RewindingState(this);
+        RewindingState = new RewindingState(this);
 
         DashCharges = GetComponent<DashCharges>();
+        RevolutionController = GetComponent<RevolutionController>();
 
         CurrentState = WalkingState;
         CurrentState.Enter();
@@ -67,8 +68,7 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerInputHandler.OnJumpPressed += HandleJumpInput;
         PlayerInputHandler.OnSlidePressed += HandleSlideInput;
         PlayerInputHandler.OnDashPressed += HandleDashInput;
-        // TODO: Implement RewindingState
-        // PlayerInputHandler.OnRewindPressed += HandleRewindInput;
+        PlayerInputHandler.OnRewindPressed += HandleRewindInput;
     }
 
     private void OnDisable()
@@ -76,8 +76,7 @@ public class PlayerStateMachine : MonoBehaviour
         PlayerInputHandler.OnJumpPressed -= HandleJumpInput;
         PlayerInputHandler.OnSlidePressed -= HandleSlideInput;
         PlayerInputHandler.OnDashPressed -= HandleDashInput;
-        // TODO: Implement RewindingState
-        // PlayerInputHandler.OnRewindPressed -= HandleRewindInput;
+        PlayerInputHandler.OnRewindPressed -= HandleRewindInput;
     }
 
     // Local triggers need to be overwritten by the current state (or not if we don't want any behavior
@@ -86,20 +85,12 @@ public class PlayerStateMachine : MonoBehaviour
     private void HandleDashInput() => CurrentState?.OnDashInput();
 
     // Global triggers are handled directly in the state machine
-    // private void HandleDashInput()
-    // {
-    //     if (CurrentState != DashingState)
-    //     {
-    //         ChangeState(DashingState);
-    //     }
-    // }
+    private void HandleRewindInput()
+    {
+        if (CurrentState == RewindingState) return;
+        if (!RewindingState.CanRewind()) return;
+        if (!RevolutionController.HasRecordedPoints) return;
 
-    // TODO: Implement RewindingState
-    // private void HandleRewindInput()
-    // {
-    //     if (CurrentState != RewindingState)
-    //     {
-    //         ChangeState(RewindingState);
-    //     }
-    // }
+        ChangeState(RewindingState);
+    }
 }

@@ -23,7 +23,6 @@ public class DashCharges : MonoBehaviour
             if (_chargeCount == clamped) return; // Prevents redundant UI updates
 
             _chargeCount = clamped;
-            Debug.Log($"Charge count: {_chargeCount}");
             OnChargesChanged?.Invoke(_chargeCount);
         }
     }
