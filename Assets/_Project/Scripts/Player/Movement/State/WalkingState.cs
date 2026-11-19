@@ -1,26 +1,38 @@
-﻿using UnityEngine;
+﻿using _Project.Scripts.Player.State;
+using UnityEngine;
 
-namespace _Project.Scripts.Player.State
+public class WalkingState : GroundedState
 {
-    public class WalkingState : GroundedState
+    protected override PhysicsParams StatePhysics => Config.walkParams;
+
+    public WalkingState(PlayerStateMachine player) : base(player)
     {
-        protected override PhysicsParams StatePhysics => Config.walkParams;
+    }
 
-        public WalkingState(PlayerStateMachine player) : base(player)
-        {
-        }
+    public override void Enter()
+    {
+    }
 
-        public override void Enter()
-        {
-        }
+    public override void Exit()
+    {
+    }
 
-        public override void Exit()
-        {
-        }
+    public override void LogicUpdate()
+    {
+        Player.DashCharges.TickRecharge(Time.deltaTime);
 
-        public override void OnSlideInput()
-        {
-            Player.ChangeState(Player.SlidingState);
-        }
+        base.LogicUpdate();
+    }
+
+    public override void OnSlideInput()
+    {
+        Player.ChangeState(Player.SlidingState);
+    }
+
+    public override void OnDashInput()
+    {
+        if (!Player.DashCharges.TryGroundDash()) return;
+
+        Player.ChangeState(Player.DashingState);
     }
 }

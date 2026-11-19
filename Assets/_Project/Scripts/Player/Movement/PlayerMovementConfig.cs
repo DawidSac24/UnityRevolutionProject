@@ -31,6 +31,7 @@ public class PlayerMovementConfig : MonoBehaviour
 
     [Header("Dash Settings")]
     public float dashForce = 20.0f;
+    public int maxAirDashes = 1;
 
     [Header("GroundChecks")]
     public Transform groundCheck;

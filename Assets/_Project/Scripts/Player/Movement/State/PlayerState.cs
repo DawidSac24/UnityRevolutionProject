@@ -16,7 +16,7 @@ namespace _Project.Scripts.Player.State
         public abstract void Enter();
         public abstract void Exit();
         public abstract void LogicUpdate();
-        public abstract void PhysicsUpdate(); // Left completely blank/abstract here
+        public abstract void PhysicsUpdate();
 
         public virtual void OnJumpInput()
         {
@@ -25,6 +25,11 @@ namespace _Project.Scripts.Player.State
         public virtual void OnSlideInput()
         {
         }
+
+        public virtual void OnDashInput()
+        {
+        }
+
 
         protected void ClearVelocity(bool clearX, bool clearY, bool clearZ)
         {
