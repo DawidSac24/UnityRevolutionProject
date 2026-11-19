@@ -298,7 +298,7 @@ MonoBehaviour:
   slideDuration: 0.5
   minVelocity: 2
   slidePositionYOffset: 0.5
-  slideRotationXOffset: 20
+  slideRotationXOffset: 60
   rotateOnSlideTransforms:
   - {fileID: 3192809969882355994}
   moveOnSlideTransforms:
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742b26bd634e4e745b0009a56b4e8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RevolutionController
+  rewindCooldown: 3
   rewindDurationInSeconds: 3
   rewindSpeedMultiplier: 2
   enableRewindCameraOverwrite: 1
