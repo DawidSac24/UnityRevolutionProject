@@ -6,6 +6,8 @@ public class AirborneState : ContinuousState
 {
     protected override PhysicsParams StatePhysics => Config.airParams;
 
+    private int _wallJumpCount = 0;
+
     public AirborneState(PlayerStateMachine player) : base(player)
     {
     }
@@ -24,7 +26,7 @@ public class AirborneState : ContinuousState
     {
         if (IsGrounded())
         {
-            Player.DashCharges.ClearAirDash();
+            ClearJumpCooldowns();
             Player.ChangeState(Player.WalkingState);
         }
     }
@@ -44,5 +46,25 @@ public class AirborneState : ContinuousState
 
     public override void OnJumpInput()
     {
+        if (!CanWallJump()) return;
+        Vector3 wallNormal;
+        if (!TryGetWallNormal(out wallNormal)) return;
+
+        ClearVelocity(false, true, false);
+        ApplyImpulse((wallNormal * Config.wallJumpSideForce) + (Vector3.up * Config.wallJumpUpForce));
+
+        ClearJumpCooldowns();
+        Debug.Log("Wall Jumped!");
+    }
+
+    private bool CanWallJump()
+    {
+        return _wallJumpCount <= Config.wallJumpLimit;
+    }
+
+    private void ClearJumpCooldowns()
+    {
+        _wallJumpCount = 0;
+        Player.DashCharges.ClearAirDash();
     }
 }
