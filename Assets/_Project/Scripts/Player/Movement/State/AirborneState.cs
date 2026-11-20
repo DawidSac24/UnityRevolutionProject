@@ -41,4 +41,8 @@ public class AirborneState : ContinuousState
 
         Player.ChangeState(Player.DashingState);
     }
+
+    public override void OnJumpInput()
+    {
+    }
 }

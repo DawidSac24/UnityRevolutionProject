@@ -19,6 +19,8 @@ public class PlayerMovementConfig : MonoBehaviour
 
     public PhysicsParams airParams;
     public float jumpForce = 5f;
+    public float WallJumpDetectionHeight = 0.5f;
+    public float WallJumpDetectionDistance = 0.2f;
 
     public PhysicsParams slideParams;
     public float slideDuration = 0.5f;
