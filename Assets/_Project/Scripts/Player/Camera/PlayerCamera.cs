@@ -14,9 +14,6 @@ public class PlayerCamera : MonoBehaviour
     
     private PlayerInputHandler _inputHandler;
 
-    // private CharacterController cc;
-
-
     private float _lookAngle = 0.0f;
 
     void Start()
