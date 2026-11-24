@@ -20,6 +20,13 @@ public class PlayerMovementConfig : MonoBehaviour
     public PhysicsParams airParams;
     public float jumpForce = 5f;
 
+    [Header("Wall Jump Settings")]
+    public int wallJumpLimit = 3;
+    public float wallCheckBuffer = 0.3f;
+    public LayerMask wallMask;
+    public float wallJumpSideForce = 10f;
+    public float wallJumpUpForce = 8f;
+
     public PhysicsParams slideParams;
     public float slideDuration = 0.5f;
     public float minVelocity = 10f;
