@@ -11,6 +11,9 @@ public class PlayerStateMachine : MonoBehaviour
     public PlayerInputHandler InputHandler { get; private set; }
     public PlayerMovementConfig MovementConfig { get; private set; }
 
+    [SerializeField] private GameLoopManager gameLoopManager;
+    public GameLoopManager GameLoopManager => gameLoopManager;
+
     // local states
     public WalkingState WalkingState { get; private set; }
     public AirborneState AirborneState { get; private set; }
@@ -29,6 +32,8 @@ public class PlayerStateMachine : MonoBehaviour
         Collider = GetComponent<CapsuleCollider>();
         Rb = GetComponent<Rigidbody>();
         InputHandler = GetComponent<PlayerInputHandler>();
+        if (GameLoopManager == null)
+            throw new System.Exception("GameLoopManager not set");
 
         MovementConfig = GetComponent<PlayerMovementConfig>();
 

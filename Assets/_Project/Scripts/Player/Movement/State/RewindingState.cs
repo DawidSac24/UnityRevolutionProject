@@ -19,6 +19,7 @@ public class RewindingState : PlayerState
         Player.RevolutionController.IsRecording = false;
         Player.Rb.isKinematic = true;
         _framesSinceLastGhost = Player.RevolutionController.GhostSpawnRate;
+        Player.GameLoopManager.ReverseTimer();
     }
 
     public override void Exit()
@@ -33,6 +34,7 @@ public class RewindingState : PlayerState
         _nextRewindTime = Time.time + Player.RevolutionController.RewindCooldown;
 
         DestroyAllGhosts();
+        Player.GameLoopManager.ReverseTimer();
     }
 
     public override void LogicUpdate()
