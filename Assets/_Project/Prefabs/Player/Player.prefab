@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &526848008065011489
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2904565253172626159}
+  m_Layer: 0
+  m_Name: firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2904565253172626159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526848008065011489}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.03, z: 0.168}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2777206332402153568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1015678285091417843
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +95,7 @@ GameObject:
   - component: {fileID: 9005525827687571389}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -312,7 +343,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -382,6 +413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8ce670ecc4019e05a8e06429f6ec10f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponHolder
+  _playerCameraTransform: {fileID: 8928165759727748398}
   weapons:
   - {fileID: 3297003115260928730}
   - {fileID: 8668551421615911422}
@@ -478,6 +510,37 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5306476796210140959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4118640125618252807}
+  m_Layer: 0
+  m_Name: MuzzlePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4118640125618252807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5306476796210140959}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.03707, z: 0.1808}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2777206332402153568}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5587352259007606013
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,8 +630,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3288226059333465449, guid: 8147cbc638990a74995cb3f8161c7edd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4118640125618252807}
+    - targetCorrespondingSourceObject: {fileID: 3288226059333465449, guid: 8147cbc638990a74995cb3f8161c7edd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2904565253172626159}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2804036681021304787, guid: 8147cbc638990a74995cb3f8161c7edd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6233583411538545542}
   m_SourcePrefab: {fileID: 100100000, guid: 8147cbc638990a74995cb3f8161c7edd, type: 3}
 --- !u!4 &2777206332402153568 stripped
 Transform:
@@ -580,6 +652,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2804036681021304787, guid: 8147cbc638990a74995cb3f8161c7edd, type: 3}
   m_PrefabInstance: {fileID: 804101836654726409}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6233583411538545542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297003115260928730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949501f9c760846a3bf6f6e39d922f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  bulletVfxPrefab: {fileID: 4612940176930493297, guid: 0e35190714df44d8cb33b48312516392, type: 3}
+  firePoint: {fileID: 2904565253172626159}
+  damage: 10
+  fireRate: 0.2
+  range: 100
+  muzzlePoint: {fileID: 4118640125618252807}
+  bulletSpeed: 15
+  bulletLifeTime: 3
+  impactPrefab: {fileID: 2955623459812423943, guid: f5507a8c6a22c404ab324980c4e8a11b, type: 3}
 --- !u!1001 &870502062312542438
 PrefabInstance:
   m_ObjectHideFlags: 0
